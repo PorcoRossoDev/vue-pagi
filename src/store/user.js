@@ -7,7 +7,7 @@ export const userStore = defineStore('user', {
     }),
     actions: {
         async fetchUsers(page = 1) {
-            const perPage = 10
+            const perPage = 5
             const skip = (page - 1) * perPage
 
             const res = await api.get(`users?limit=${perPage}&skip=${skip}`)

@@ -154,6 +154,7 @@
 
             <TailwindPagination
                 :data="laravelData"
+                :max-page-shown="5"
                 @pagination-change-page="getResults"
             />
             </div>
@@ -161,14 +162,17 @@
         </div>
     </div>
     <!-- End Card -->
-    </div>
     <!-- End Table Section -->
+  </div>
 </template>
 <script setup>
+import { ref, onMounted } from 'vue'
+import { TailwindPagination } from 'laravel-vue-pagination'
 import { userStore } from '@/store/user'
-import { onMounted, ref } from 'vue';
-import { TailwindPagination } from 'laravel-vue-pagination';
-const users = userStore();
+import axios from 'axios'
+
+const users = userStore()
+const postStore = userStore()
 const laravelData = ref({})
 
 const getResults = async (page = 1) => {
@@ -178,4 +182,6 @@ const getResults = async (page = 1) => {
 onMounted(() => {
   getResults()
 })
+
+
 </script> 
