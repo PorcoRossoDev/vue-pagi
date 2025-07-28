@@ -23,10 +23,10 @@
                     View all
                     </a>
 
-                    <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" href="#">
-                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                    Add user
-                    </a>
+                    <router-link :to="{name: 'users.add'}" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                        <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                        Add user
+                    </router-link>
                 </div>
                 </div>
             </div>
@@ -150,13 +150,10 @@
 
                 </tbody>
             </table>
-            <!-- End Table -->
 
-            <TailwindPagination
-                :data="laravelData"
-                :max-page-shown="5"
-                @pagination-change-page="getResults"
-            />
+            <!-- End Table -->
+            <Pagination v-if="users.paginate && users.paginate.total" :paginate="users.paginate" @fetchPage="fetchUsers" />
+
             </div>
         </div>
         </div>
@@ -166,22 +163,21 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, reactive } from 'vue'
 import { TailwindPagination } from 'laravel-vue-pagination'
 import { userStore } from '@/store/user'
 import axios from 'axios'
+import Pagination from '@/components/Pagination.vue'
 
 const users = userStore()
-const postStore = userStore()
-const laravelData = ref({})
+const paginate = ref({})
 
-const getResults = async (page = 1) => {
-  laravelData.value = await users.fetchUsers(page)
+const fetchUsers = async (page = 1) => {
+  await users.fetchUsers(page)
 }
 
 onMounted(() => {
-  getResults()
+    fetchUsers()
 })
-
 
 </script> 

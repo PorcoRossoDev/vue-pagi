@@ -3,30 +3,29 @@ import { defineStore } from "pinia";
 
 export const userStore = defineStore('user', {
     state: () => ({
-        users: null,
+        users: [],
+        paginate: {
+            per_page: 5,
+            total: 20
+        }
     }),
     actions: {
         async fetchUsers(page = 1) {
-            const perPage = 5
-            const skip = (page - 1) * perPage
-
-            const res = await api.get(`users?limit=${perPage}&skip=${skip}`)
-
+            const skip = (page - 1) * this.paginate.per_page
+            const res = await api.get(`users?limit=${this.paginate.per_page}&skip=${skip}`)
             const total = res.data.total
             const users = res.data.users
-
-            const paginationData = {
-                current_page: page,
-                data: users,
-                total: total,
-                per_page: perPage,
-                last_page: Math.ceil(total / perPage),
-                from: skip + 1,
-                to: skip + users.length,
-            }
-
             this.users = users
-            return paginationData
+            this.paginate.total = res.data.total
+        },
+        async addUser (payload) {
+            try {
+                console.log(payload)
+                const res = await api.post('users/add', payload)
+                console.log(res)
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 })

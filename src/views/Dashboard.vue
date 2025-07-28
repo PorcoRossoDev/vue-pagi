@@ -18,28 +18,27 @@
             @page-change="onPageChange"
             >
             <!-- Prev button SVG -->
-      <template #prev-button-content>
-        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
-          viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M15.75 19.5L8.25 12l7.5-7.5" />
-        </svg>
-      </template>
+            <template #prev-button>
+              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15.75 19.5L8.25 12l7.5-7.5" />
+              </svg>
+            </template>
 
-      <!-- Next button SVG -->
-      <template #next-button-content>
-        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
-          viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-        </svg>
-      </template>
-            </vue-awesome-paginate>
+            <!-- Next button SVG -->
+            <template #next-button>
+              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+              </svg>
+            </template>
+          </vue-awesome-paginate>
     </div>
 </template>
 <script setup>
 import { ref } from 'vue'
-
 const currentPage = ref(1)
 const totalItems = 100
 const itemsPerPage = 10
