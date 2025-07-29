@@ -1,5 +1,7 @@
 import api from "@/plugin/api";
+import backendAPI from "@/plugin/backendAPI";
 import { defineStore } from "pinia";
+import router from '@/router' // đường dẫn tới router/index.js
 
 export const userStore = defineStore('user', {
     state: () => ({
@@ -20,10 +22,21 @@ export const userStore = defineStore('user', {
         },
         async addUser (payload) {
             try {
-                console.log(payload)
                 const res = await api.post('users/add', payload)
                 console.log(res)
             } catch (error) {
+                console.log(error)
+            }
+        },
+        async login(payload) {
+            try {
+                const res = await backendAPI.post('login', payload)
+                localStorage.setItem('access_token', res.access_token)
+                localStorage.setItem('token_type', res.access_token)
+                alert('Đăng nhập thành công!')
+                router.push({name: 'dashboard'})
+            } catch (error) {
+                alert('Đăng nhập thất bại!')
                 console.log(error)
             }
         }
