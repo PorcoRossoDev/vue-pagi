@@ -1,7 +1,9 @@
 <template lang="">
     <div>
-        <Menu />
-        <router-view></router-view>
+        <n-message-provider>
+            <Menu />
+            <router-view></router-view>
+        </n-message-provider>
     </div>
 </template>
 <script setup>

@@ -25,6 +25,16 @@ const routes = [
           path: 'dashboard',
           name: 'dashboard',
           component: () => import('@/views/Dashboard.vue')
+        },
+        {
+          path: 'module',
+          name: 'module',
+          component: () => import('@/views/Module.vue')
+        },
+        {
+          path: 'module/add',
+          name: 'module.add',
+          component: () => import('@/views/ModuleForm.vue')
         }
     ]
   },
