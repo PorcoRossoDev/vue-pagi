@@ -8,11 +8,10 @@
         :collapsed-width="64"
         :width="240"
         show-trigger
-        :native-scrollbar="false"
+        :native-scrollbar="true"
         :inverted="inverted"
         @collapse="collapsed = true"
         @expand="collapsed = false"
-        :theme-overrides="menuTheme"
       >
         <!-- Logo -->
         <div class="logo-area py-4 text-center text-white font-bold text-lg">
@@ -28,6 +27,16 @@
           :collapsed-width="64"
           :collapsed-icon-size="20"
           :default-selected-keys="['dashboard']"
+          :theme-overrides="{
+            itemTextColorActive: '#9E5E29',
+            itemColorActive: '#FFF6EE',
+            itemIconColorActive: '#9E5E29',
+            itemColorHover: '#FFF6EE',
+            itemTextColorHover: '#9E5E29',
+            itemIconColorHover: '#9E5E29',
+            itemTextColorActiveHover: '#9E5E29',
+            itemColorActiveHover: '#FFF6EE',
+          }"
         />
       </n-layout-sider>
   
