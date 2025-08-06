@@ -1,49 +1,119 @@
-<template lang="">
-    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-        <vue-awesome-paginate
-            :total-items="50"
-            v-model="currentPage"
-            :items-per-page="5"
-            :max-pages-shown="5"
+<template>
+  <n-layout has-sider style="min-height: 100vh">
+    <!-- Sider -->
+    <n-layout-sider
+      bordered
+      collapse-mode="width"
+      :collapsed="collapsed"
+      :collapsed-width="64"
+      :width="240"
+      show-trigger
+      :native-scrollbar="false"
+      :inverted="inverted"
+      @collapse="collapsed = true"
+      @expand="collapsed = false"
+      :theme-overrides="menuTheme"
+    >
+      <!-- Logo -->
+      <div class="logo-area py-4 text-center text-white font-bold text-lg">
+        <span v-if="!collapsed">My Admin</span>
+        <span v-else>M</span>
+      </div>
 
-            :container-class="'inline-flex -space-x-px rounded-md shadow-sm isolate ltr:flex-row rtl:flex-row-reverse'"
+      <!-- Menu -->
+      <n-menu
+        :options="menuOptions"
+        :collapsed="collapsed"
+        :inverted="inverted"
+        :collapsed-width="64"
+        :collapsed-icon-size="20"
+        :default-selected-keys="['dashboard']"
+      />
+    </n-layout-sider>
 
-            :paginate-buttons-class="'relative mx-[-1px] inline-flex items-center px-4 py-2 text-sm font-medium border focus:z-20 bg-white text-gray-500 border-gray-300 hover:bg-gray-50'"
+    <!-- Main Layout -->
+    <n-layout>
+      <!-- Header -->
+      <n-layout-header
+        bordered
+        class="flex items-center justify-between px-4 py-2"
+        style="height: 56px;"
+      >
+        <div class="text-xl font-semibold text-gray-700">Dashboard</div>
+        <div class="flex items-center gap-3">
+          <n-button size="small" @click="toggleTheme">
+            {{ inverted ? '🌞' : '🌙' }}
+          </n-button>
+          <n-button size="small" type="error">Logout</n-button>
+        </div>
+      </n-layout-header>
 
-            :active-page-class="'relative mx-[-1px] inline-flex items-center px-4 py-2 text-sm font-medium border focus:z-20 bg-blue-50 text-blue-600 border-blue-500 z-30 !bg-blue-50 !text-blue-600 !border-blue-500'"
-
-            :back-button-class="'relative inline-flex items-center px-2 py-2 text-sm font-medium border rounded-l-md focus:z-20 disabled:opacity-50 bg-white text-gray-500 border-gray-300 hover:bg-gray-50'"
-
-            :next-button-class="'relative inline-flex items-center px-2 py-2 text-sm font-medium border rounded-r-md focus:z-20 disabled:opacity-50 bg-white text-gray-500 border-gray-300 hover:bg-gray-50'"
-            @page-change="onPageChange"
-            >
-            <!-- Prev button SVG -->
-            <template #prev-button>
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
-                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M15.75 19.5L8.25 12l7.5-7.5" />
-              </svg>
-            </template>
-
-            <!-- Next button SVG -->
-            <template #next-button>
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
-                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-              </svg>
-            </template>
-          </vue-awesome-paginate>
-    </div>
+      <!-- Content -->
+      <n-layout-content class="p-6" style="background: #f5f5f5;">
+        <n-card title="Welcome" hoverable>
+          <p>This is your dashboard content.</p>
+        </n-card>
+      </n-layout-content>
+    </n-layout>
+  </n-layout>
 </template>
-<script setup>
-import { ref } from 'vue'
-const currentPage = ref(1)
-const totalItems = 100
-const itemsPerPage = 10
 
-function onPageChange(page) {
-  console.log('Trang mới:', page)
+<script setup>
+import { ref, h } from 'vue'
+
+const collapsed = ref(false)
+const inverted = ref(false)
+
+const toggleTheme = () => {
+  inverted.value = !inverted.value
 }
+
+// Menu cấu hình
+const menuOptions = [
+  {
+    label: 'Dashboard',
+    key: 'dashboard',
+    icon: () => h('i', { class: 'i-material-symbols-dashboard-outline' })
+  },
+  {
+    label: 'Users',
+    key: 'users',
+    icon: () => h('i', { class: 'i-material-symbols-group-outline' })
+  },
+  {
+    label: 'Settings',
+    key: 'settings',
+    icon: () => h('i', { class: 'i-material-symbols-settings-outline' }),
+    children: [
+      { label: 'General', key: 'general' },
+      { label: 'Security', key: 'security' }
+    ]
+  }
+]
+
+const themeOverrides = {
+  Menu: {
+    itemColorActive: 'red',
+    itemTextColorActive: '#fff',
+    itemTextColor: '#333',
+    itemColorHover: '#f5f5f5',
+    itemPadding: '10px 16px'
+  }
+}
+
 </script>
+
+<style scoped>
+.logo-area {
+  background-color: #001529;
+  color: white;
+}
+
+.n-layout-header {
+  background-color: #ffffff;
+}
+
+.n-layout-content {
+  background-color: #f5f5f5;
+}
+</style>
