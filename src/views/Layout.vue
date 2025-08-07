@@ -1,5 +1,5 @@
 <template>
-    <n-layout has-sider style="min-height: 100vh">
+    <n-layout has-sider>
       <!-- Sider -->
       <n-layout-sider
         bordered
@@ -36,6 +36,8 @@
             itemIconColorHover: '#9E5E29',
             itemTextColorActiveHover: '#9E5E29',
             itemColorActiveHover: '#FFF6EE',
+            itemTextColorChildActive: '#9E5E29',
+            itemTextColorChildActiveHover: '#9E5E29',
           }"
         />
       </n-layout-sider>
@@ -69,7 +71,22 @@
   
   <script setup>
   import { ref, h } from 'vue'
-  
+import {
+  Home,
+  Users,
+  Settings,
+  Lock,
+  BarChart,
+  FileText,
+  Database,
+  MessageSquare,
+  Folder,
+  Image,
+  Tag,
+  Edit3,
+  ShoppingCart
+} from 'lucide-vue-next'
+
   const collapsed = ref(false)
   const inverted = ref(false)
   
@@ -78,27 +95,105 @@
   }
   
   // Menu cấu hình
-  const menuOptions = [
-    {
-      label: 'Dashboard',
-      key: 'dashboard',
-      icon: () => h('i', { class: 'i-material-symbols-dashboard-outline' })
-    },
-    {
-      label: 'Users',
-      key: 'users',
-      icon: () => h('i', { class: 'i-material-symbols-group-outline' })
-    },
-    {
-      label: 'Settings',
-      key: 'settings',
-      icon: () => h('i', { class: 'i-material-symbols-settings-outline' }),
-      children: [
-        { label: 'General', key: 'general' },
-        { label: 'Security', key: 'security' }
-      ]
-    }
-  ]
+  // SidebarMenu.ts
+
+const menuOptions = [
+  {
+    label: 'Dashboard',
+    type: 'group',
+    key: 'group-dashboard',
+    children: [
+      {
+        label: 'Overview',
+        key: 'dashboard-overview',
+        icon: () => h(Home)
+      },
+      {
+        label: 'Analytics',
+        key: 'dashboard-analytics',
+        icon: () => h(BarChart)
+      },
+      {
+        label: 'Cart',
+        key: 'dashboard-cart',
+        icon: () => h(ShoppingCart)
+      }
+    ]
+  },
+  {
+    label: 'Content',
+    type: 'group',
+    key: 'group-content',
+    children: [
+      {
+        label: 'Bài viết',
+        key: 'posts',
+        icon: () => h(FileText)
+      },
+      {
+        label: 'Danh mục',
+        key: 'categories',
+        icon: () => h(Folder)
+      },
+      {
+        label: 'Thẻ (Tags)',
+        key: 'tags',
+        icon: () => h(Tag)
+      },
+      {
+        label: 'Media',
+        key: 'media',
+        icon: () => h(Image)
+      },
+      {
+        label: 'Trình soạn thảo',
+        key: 'editor',
+        icon: () => h(Edit3)
+      }
+    ]
+  },
+  {
+    label: 'Management',
+    type: 'group',
+    key: 'group-management',
+    children: [
+      {
+        label: 'Users',
+        key: 'management-users',
+        icon: () => h(Users)
+      },
+      {
+        label: 'Data',
+        key: 'management-data',
+        icon: () => h(Database)
+      }
+    ]
+  },
+  {
+    label: 'System',
+    type: 'group',
+    key: 'group-system',
+    children: [
+      {
+        label: 'Settings',
+        key: 'system-settings',
+        icon: () => h(Settings)
+      },
+      {
+        label: 'Security',
+        key: 'system-security',
+        icon: () => h(Lock)
+      },
+      {
+        label: 'Logs',
+        key: 'system-logs',
+        icon: () => h(MessageSquare)
+      }
+    ]
+  }
+]
+
+
   
   const themeOverrides = {
     Menu: {
