@@ -50,7 +50,7 @@
     <n-layout>
       <n-scrollbar>
         <!-- Header -->
-        <n-layout-header bordered class="flex items-center justify-between px-4 py-2" style="height: 56px;">
+        <n-layout-header bordered class="flex items-center justify-between px-4 py-2 sticky top-0 z-50">
           <div class="text-xl font-semibold text-gray-700">Dashboard</div>
           <div class="flex items-center gap-3">
             <n-button size="small" @click="toggleTheme">
