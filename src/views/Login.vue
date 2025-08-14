@@ -40,7 +40,7 @@
 
 </div>
 
-<div class="bg-brand animate-wave-3">123</div>
+<div class="bg-brand animate-wave-3 animate-rotate-shape animate-rotate-shape animate-float-shape">123</div>
   </n-layout>
 </template>
 <script>
