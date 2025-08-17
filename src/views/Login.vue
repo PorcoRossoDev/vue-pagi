@@ -1,50 +1,128 @@
 <template>
-<n-layout
-  class="before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[linear-gradient(135deg,#2d8cf01a,#2d8cf00d)] bg-[url('https://gratis.naiveadmin.com/assets/login-BJnRyGHB.svg'),radial-gradient(circle_at_10%_20%,#6495ed40,#4169e133_40%,#1e90ff1a_90%)] bg-cover bg-no-repeat h-screen w-full">
-  <div class="relative w-full h-screen overflow-hidden">
+  <n-config-provider :theme-overrides="themeOverrides">
+    <div class="min-h-screen grid grid-cols-1 lg:grid-cols-2 w-full" :content-style="{ overflow: 'visible' }">
+      <!-- Left banner -->
+      <div class="hidden lg:flex flex-1 bg-[#F8FAFC] relative">
+        <div class=" pt-20 ps-20">
+          <img class="w-36 mb-6" src="https://dashcode-next-shadcn-live.vercel.app/images/logo/logo.svg" alt="logo" />
+          <h4 class="text-4xl leading-[48px]">
+            Unlock your Project
+            <span class="text-gray-800 font-bold">performance</span>
+          </h4>
+        </div>
+        <img
+          class="absolute left-0 bottom-0 w-full h-auto"
+          src="https://dashcode-next-shadcn-live.vercel.app/images/auth/ils1.svg"
+          alt="illustration"
+        />
+      </div>
 
-  <!-- Line 1 -->
-  <div class="absolute w-[300px] h-[2px] top-[15%] right-[5%] rotate-[-30deg] 
-              bg-[linear-gradient(90deg,rgba(45,140,240,0.2),rgba(0,129,255,0.1))] 
-              animate-pulse-line"></div>
+      <!-- Right content -->
+      <div class="flex-1 flex items-center justify-center bg-white">
+        <div class="flex flex-1 flex-col max-w-lg w-full items-center">
+          <n-card
+          class="w-full"
+          :bordered="false"
+          size="huge"
+        >
+          <div class="text-center mb-8">
+            <img
+              class="w-36 mx-auto mb-4 lg:hidden"
+              src="https://dashcode-next-shadcn-live.vercel.app/images/logo/logo.svg"
+              alt="logo"
+            />
+            <h4 class="font-medium text-2xl">Sign in</h4>
+            <p class="text-gray-500">Sign in to your account to start using Dashcode</p>
+          </div>
 
-  <!-- Line 2 -->
-  <div class="absolute w-[200px] h-[2px] bottom-[20%] left-[10%] rotate-[45deg] 
-              bg-[linear-gradient(90deg,rgba(45,140,240,0.2),rgba(0,129,255,0.1))] 
-              animate-pulse-line"></div>
+          <n-form class="space-y-4">
+            <n-form-item label="Email">
+              <n-input v-model:value="form.email" type="email" placeholder="Enter your email" />
+            </n-form-item>
 
-  <!-- Square 1 -->
-  <div class="absolute w-[80px] h-[80px] top-[10%] left-[15%] 
-              bg-[linear-gradient(45deg,rgba(45,140,240,0.15),rgba(0,129,255,0.05))] 
-              rotate-[30deg] animate-rotate-shape"></div>
+            <n-form-item label="Password">
+              <n-input
+                v-model:value="form.password"
+                type="password"
+                show-password-on="click"
+                placeholder="Enter your password"
+              />
+            </n-form-item>
 
-  <!-- Square 2 -->
-  <div class="absolute w-[50px] h-[50px] bottom-[15%] right-[15%] 
-              bg-[linear-gradient(45deg,rgba(45,140,240,0.15),rgba(0,129,255,0.05))] 
-              rotate-[-20deg] animate-rotate-shape-reverse animate-rotate-shape"></div>
+            <div class="flex justify-between items-center">
+              <n-checkbox v-model:checked="form.remember">Keep me signed in</n-checkbox>
+              <a href="/forgot-password" class="text-sm font-medium text-primary">
+                Forgot Password?
+              </a>
+            </div>
 
-  <!-- Triangle -->
-  <div class="absolute bottom-[30%] right-[20%] w-0 h-0 
-              border-l-[50px] border-l-transparent
-              border-r-[50px] border-r-transparent
-              border-b-[80px] border-b-[rgba(45,140,240,0.08)]
-              animate-float-shape"></div>
+            <n-button
+              type="primary"
+              block
+              size="large"
+              @click="onSubmit"
+            >
+              Sign In
+            </n-button>
+          </n-form>
+          </n-card>
 
-  <!-- Wave layers -->
-  <div class="absolute bottom-0 left-0 w-full h-[120px] animate-[wave-move_15s_ease-in-out_0s_infinite] opacity-30 rotate-[-2deg] 
-              bg-[url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNDQwIDMyMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PHBhdGggZmlsbD0icmdiYSg0NSwgMTQwLCAyNDAsIDAuMikiIGQ9Ik0wLDMyMEMwLDI0MCA0MCwxNjAgODAsMTYwQzEyMCwxNjAgMTYwLDI0MCAyMDAsMjQwQzI0MCwyNDAgMjgwLDE2MCAzMjAsMTYwQzM2MCwxNjAgNDAwLDI0MCA0NDAsMjQwQzQ4MCwyNDAgNTIwLDE2MCA1NjAsMTYwQzYwMCwxNjAgNjQwLDI0MCA2ODAsMjQwQzcyMCwyNDAgNzYwLDE2MCA4MDAsMTYwQzg0MCwxNjAgODgwLDI0MCA5MjAsMjQwQzk2MCwyNDAgMTAwMCwxNjAgMTA0MCwxNjBDMTA4MCwxNjAgMTEyMCwyNDAgMTE2MCwyNDBDMTIwMCwyNDAgMTI0MCwxNjAgMTI4MCwxNjBDMTMyMCwxNjAgMTM2MCwyNDAgMTQwMCwyNDBDMTQ0MCwyNDAgMTQ0MCwxNjAgMTQ0MCwxNjBMMTQ0MCwzMjBMMCwzMjBaIj48L3BhdGg+PC9zdmc+)] bg-[length:100%_120px] animate-wave-1"></div>
-  <div class="absolute bottom-0 left-0 w-full h-[120px] animate-[wave-move_18s_ease-in-out_-5s_infinite] opacity-20 rotate-[1deg] 
-              bg-[url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNDQwIDMyMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PHBhdGggZmlsbD0icmdiYSg0NSwgMTQwLCAyNDAsIDAuMTUpIiBkPSJNMCwzMjBDMCwyNDAgNjAsMTgwIDEyMCwxODBDMTgwLDE4MCAyNDAsMjQwIDMwMCwyNDBDMzYwLDI0MCA0MjAsMTgwIDQ4MCwxODBDNTQwLDE4MCA2MDAsMjQwIDY2MCwyNDBDNzIwLDI0MCA3ODAsMTgwIDg0MCwxODBDOTAwLDE4MCA5NjAsMjQwIDEwMjAsMjQwQzEwODAsMjQwIDExNDAsMTgwIDEyMDAsMTgwQzEyNjAsMTgwIDEzMjAsMjQwIDEzODAsMjQwQzE0NDAsMjQwIDE0NDAsMTgwIDE0NDAsMTgwTDE0NDAsMzIwTDAsMzIwWiI+PC9wYXRoPjwvc3ZnPg==)] bg-[length:100%_120px] animate-wave-2"></div>
-  <div class="absolute bottom-0 left-0 w-full h-[120px] opacity-10 rotate-[-1deg] 
-              bg-[url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNDQwIDMyMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PHBhdGggZmlsbD0icmdiYSg0NSwgMTQwLCAyNDAsIDAuMSkiIGQ9Ik0wLDMyMEMwLDI2MCAzMCwyMDAgNjAsMjAwQzkwLDIwMCAxMjAsMjYwIDE1MCwyNjBDMTgwLDI2MCAyMTAsMjAwIDI0MCwyMDBDMjcwLDIwMCAzMDAsMjYwIDMzMCwyNjBDMzYwLDI2MCAzOTAsMjAwIDQyMCwyMDBDNDUwLDIwMCA0ODAsMjYwIDUxMCwyNjBDNTQwLDI2MCA1NzAsMjAwIDYwMCwyMDBDNjMwLDIwMCA2NjAsMjYwIDY5MCwyNjBDNzIwLDI2MCA3NTAsMjAwIDc4MCwyMDBDODEwLDIwMCA4NDAsMjYwIDg3MCwyNjBDOTAwLDI2MCA5MzAsMjAwIDk2MCwyMDBDOTkwLDIwMCAxMDIwLDI2MCAxMDUwLDI2MEMxMDgwLDI2MCAxMTEwLDIwMCAxMTQwLDIwMEMxMTcwLDIwMCAxMjAwLDI2MCAxMjMwLDI2MEMxMjYwLDI2MCAxMjkwLDIwMCAxMzIwLDIwMEMxMzUwLDIwMCAxMzgwLDI2MCAxNDEwLDI2MEMxNDQwLDI2MCAxNDQwLDIwMCAxNDQwLDIwMEwxNDQwLDMyMEwwLDMyMFoiPjwvcGF0aD48L3N2Zz4=)] bg-[length:100%_120px] animate-wave-3"></div>
-
-</div>
-
-<div class="bg-brand animate-wave-3 animate-rotate-shape animate-rotate-shape animate-float-shape">123</div>
-  </n-layout>
+          <div class="text-xs font-normal text-default-500 z-[999] pb-10 text-center">Copyright 2025, Dashcode All Rights Reserved.</div>
+          </div>
+      </div>
+    </div>
+  </n-config-provider>
 </template>
-<script>
+
+<script setup>
+import { 
+  NConfigProvider,
+  NLayout,
+  NCard,
+  NInput,
+  NButton,
+  NForm,
+  NFormItem,
+  NCheckbox,
+  NDivider
+} from 'naive-ui'
+import { ref } from 'vue'
+
+const form = ref({
+  email: '',
+  password: '',
+  remember: true
+})
+
+const onSubmit = () => {
+  console.log('Form data:', form.value)
+}
+
+// đổi màu chủ đạo từ xanh → emerald (Tailwind xanh lá)
+const themeOverrides = {
+  common: {
+    primaryColor: '#0F172A',
+    primaryColorHover: '#34d399',
+    primaryColorPressed: '#059669',
+    primaryColorSuppl: '#6ee7b7',
+    borderColor: '#0F172A',       // màu viền (outline mặc định)
+    borderColorHover: '#0F172A',  // viền khi hover
+    borderColorPressed: '#0F172A',// viền khi nhấn
+  },
+  Input: {
+    border: '1px solid #D0D5DD',
+    borderHover: '1px solid #7c3aed',    // màu viền khi hover
+    borderFocus: '1px solid #7c3aed',    // màu viền khi focus
+    boxShadowFocus: '0 0 0 3px rgba(124,58,237,.2)', // “outline” khi focus
+    placeholderColor: '#9ca3af',
+    textColor: '#111827',
+    caretColor: '#7c3aed',
+    borderRadius: '12px',
+    heightMedium: '48px'
+  },
+  Button: {
+    borderFocus: '1px solid #0F172A',
+    boxShadowFocus: '0 0 0 2px rgba(37, 99, 235, 0.3)'
+  }
+}
 </script>
-<style lang="">
-  
-</style>
