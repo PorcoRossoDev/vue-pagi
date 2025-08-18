@@ -4,16 +4,18 @@
       <!-- Left banner -->
       <div class="hidden lg:flex flex-1 bg-[#F8FAFC] relative">
         <div class=" pt-20 ps-20">
-          <img class="w-36 mb-6" src="https://dashcode-next-shadcn-live.vercel.app/images/logo/logo.svg" alt="logo" />
+          <n-image
+            class="w-36 mb-6"
+            src="https://dashcode-next-shadcn-live.vercel.app/images/logo/logo.svg"
+          />
           <h4 class="text-4xl leading-[48px]">
             Unlock your Project
             <span class="text-gray-800 font-bold">performance</span>
           </h4>
         </div>
-        <img
+        <n-image
           class="absolute left-0 bottom-0 w-full h-auto"
           src="https://dashcode-next-shadcn-live.vercel.app/images/auth/ils1.svg"
-          alt="illustration"
         />
       </div>
 
@@ -57,7 +59,8 @@
             </div>
 
             <n-button
-              type="primary"
+              class="rounded-2xl"
+              color="#635BFF"
               block
               size="large"
               @click="onSubmit"
@@ -121,8 +124,10 @@ const themeOverrides = {
     heightMedium: '48px'
   },
   Button: {
-    borderFocus: '1px solid #0F172A',
-    boxShadowFocus: '0 0 0 2px rgba(37, 99, 235, 0.3)'
+    colorPrimary: '#635BFF',         // màu nền nút primary
+    colorPrimaryHover: '#635BFF',    // màu khi hover
+    colorPrimaryActive: '#047857',   // màu khi click
+    colorPrimaryText: '#ffffff'      // màu chữ
   }
 }
 </script>
