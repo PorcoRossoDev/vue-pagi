@@ -59,7 +59,7 @@
             </div>
 
             <n-button
-              class="rounded-2xl"
+              class="!rounded-xl"
               color="#635BFF"
               block
               size="large"
@@ -128,6 +128,14 @@ const themeOverrides = {
     colorPrimaryHover: '#635BFF',    // màu khi hover
     colorPrimaryActive: '#047857',   // màu khi click
     colorPrimaryText: '#ffffff'      // màu chữ
+  },
+  Checkbox: {
+    color: 'transparent',          // màu khi checked
+    colorHover: '#34d399',     // màu khi hover
+    colorChecked: '#7c3aed',
+    checkMarkColor: '#fff',    // màu dấu tick
+    border: '1px solid #7c3aed',  // border khi chưa check
+    borderFocus: '1px solid #7c3aed' // border khi focus
   }
 }
 </script>

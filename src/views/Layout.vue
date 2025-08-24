@@ -32,17 +32,19 @@
           :indent="indent" 
           :expand-on-hover="true"
           :theme-overrides="{
-            itemTextColorActive: '#9E5E29',
-            itemColorActive: '#FFF6EE',
-            itemIconColorActive: '#9E5E29',
-            itemColorHover: '#FFF6EE', 
-            itemTextColorHover: '#9E5E29',
-            itemIconColorHover: '#9E5E29',
-            itemTextColorActiveHover: '#9E5E29',
-            itemColorActiveHover: '#FFF6EE',
-            itemTextColorChildActive: '#9E5E29',
-            itemTextColorChildActiveHover: '#9E5E29',
-          }" />
+            itemColorActive: '#635BFF',         // ✅ nền khi active
+            itemTextColorActive: '#fff',        // chữ khi active
+            itemIconColorActive: '#fff',        // icon khi active
+            
+            itemColorHover: '#f2f1ff',          // ✅ nền khi hover
+            itemTextColorHover: '#635BFF',      // chữ khi hover
+            itemIconColorHover: '#635BFF',      // icon khi hover
+            
+            itemColorActiveHover: '#635BFF',    // giữ màu active khi hover
+            itemTextColorActiveHover: '#fff',   // chữ khi hover + active
+            itemIconColorActiveHover: '#fff',   // icon khi hover + active
+          }"
+        />
       </n-scrollbar>
     </n-layout-sider>
 
@@ -118,6 +120,7 @@
 
 <script setup>
 import { ref, h, computed } from 'vue'
+import { Icon } from "@iconify/vue";
 import {
   Home,
   Users,
@@ -168,12 +171,12 @@ const menuOptions = [
       {
         label: 'Overview',
         key: 'dashboard-overview',
-        icon: () => h(Home)
+        icon: () => h(Icon, { icon: 'solar:widget-add-line-duotone', width: 20 })
       },
       {
         label: 'Analytics',
         key: 'dashboard-analytics',
-        icon: () => h(BarChart),
+        icon: () => h(Icon, { icon: 'solar:chart-line-duotone', width: 20 }),
         children: [
           {
             label: 'Reports',
@@ -313,5 +316,37 @@ const displayedMenuOptions = computed(() => {
 
 .n-layout-content {
   background-color: #f5f5f5;
+}
+</style>
+
+<style scoped>
+/* Bo góc phần content của item + cắt tràn để pseudo ::before không tràn ra */
+:deep(.n-menu .n-menu-item .n-menu-item-content) {
+  border-radius: 12px !important;
+  overflow: hidden; /* quan trọng */
+}
+
+/* Pseudo tạo nền hover/active – phải bo góc cả nó */
+:deep(.n-menu .n-menu-item .n-menu-item-content::before) {
+  border-radius: 12px !important;
+}
+
+/* (tuỳ chọn) đảm bảo trạng thái selected cũng bo góc */
+:deep(.n-menu .n-menu-item.n-menu-item--selected .n-menu-item-content),
+:deep(.n-menu .n-menu-item.n-menu-item--selected .n-menu-item-content::before) {
+  border-radius: 12px !important;
+}
+
+/* Thêm box-shadow khi active */
+:deep(.n-menu .n-menu-item.n-menu-item--selected .n-menu-item-content) {
+  box-shadow: 0 17px 20px -8px #4d5bec3b;
+}
+
+/* Bo góc và nền cho active */
+:deep(.n-menu .n-menu-item.n-menu-item--selected .n-menu-item-content::before) {
+  box-shadow: 0 17px 20px -8px #4d5bec3b; /* ✅ shadow ở đây */
+}
+:deep(.n-menu-item-content.n-menu-item-content--selected::before) {
+  box-shadow: 0 17px 20px -8px #4d5bec3b;
 }
 </style>
